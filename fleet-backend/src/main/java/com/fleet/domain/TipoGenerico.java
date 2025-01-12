@@ -14,24 +14,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "generic_type")
+@Table(name = "tipo_generico")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GenericType implements Serializable {
+public class TipoGenerico implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 50)
-    private String name;
+    private String nome;
 
     @Column(length = 255)
-    private String description;
+    private String descricao;
 
     @Column(nullable = false, length = 50)
-    private String category;
+    private String categoria;
     
 }
