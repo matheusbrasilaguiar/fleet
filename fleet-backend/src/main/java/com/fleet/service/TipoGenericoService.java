@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +23,7 @@ public class TipoGenericoService implements TipoGenericoServiceInterface {
 
     @Override
     public List<TipoGenericoResponse> getAll() {
-        logger.info("Listando todos os tipos genéricos");
+        logger.info("Listando todos os tipos genericos");
         return tipoGenericoRepository.findAll().stream()
             .map(this::toResponse)
             .collect(Collectors.toList());
@@ -32,10 +31,10 @@ public class TipoGenericoService implements TipoGenericoServiceInterface {
 
     @Override
     public TipoGenericoResponse getById(Long id) {
-        logger.info("Buscando tipo genérico com ID {}", id);
+        logger.info("Buscando tipo generico com ID {}", id);
         TipoGenerico tipoGenerico = tipoGenericoRepository.findById(id)
             .orElseThrow(() -> {
-                logger.warn("Tipo genérico com ID {} não encontrado", id);
+                logger.warn("Tipo generico com ID {} nao encontrado", id);
                 return new EntidadeNaoEncontradaException("Tipo genérico com ID " + id + " não encontrado.");
             });
         return toResponse(tipoGenerico);
@@ -43,10 +42,10 @@ public class TipoGenericoService implements TipoGenericoServiceInterface {
 
     @Override
     public List<TipoGenericoResponse> listByCategory(String categoria) {
-        logger.info("Listando tipos genéricos pela categoria {}", categoria);
+        logger.info("Listando tipos genericos pela categoria {}", categoria);
         List<TipoGenerico> tipos = tipoGenericoRepository.findByCategoria(categoria);
         if (tipos.isEmpty()) {
-            logger.warn("Nenhum tipo genérico encontrado para a categoria: {}", categoria);
+            logger.warn("Nenhum tipo generico encontrado para a categoria: {}", categoria);
             throw new EntidadeNaoEncontradaException("Nenhum tipo genérico encontrado para a categoria: " + categoria);
         }
         return tipos.stream().map(this::toResponse).collect(Collectors.toList());
@@ -54,7 +53,7 @@ public class TipoGenericoService implements TipoGenericoServiceInterface {
 
     @Override
     public TipoGenericoResponse save(TipoGenericoRequest tipoGenericoRequest) {
-        logger.info("Salvando tipo genérico: {}", tipoGenericoRequest);
+        logger.info("Salvando tipo generico: {}", tipoGenericoRequest);
         validarEntrada(tipoGenericoRequest);
 
         TipoGenerico tipoGenerico = new TipoGenerico();
@@ -63,28 +62,28 @@ public class TipoGenericoService implements TipoGenericoServiceInterface {
         tipoGenerico.setCategoria(tipoGenericoRequest.getCategoria());
 
         tipoGenerico = tipoGenericoRepository.save(tipoGenerico);
-        logger.info("Tipo genérico salvo com ID {}", tipoGenerico.getId());
+        logger.info("Tipo generico salvo com ID {}", tipoGenerico.getId());
         return toResponse(tipoGenerico);
     }
 
     @Override
     public void delete(Long id) {
-        logger.info("Deletando tipo genérico com ID {}", id);
+        logger.info("Deletando tipo generico com ID {}", id);
         if (!tipoGenericoRepository.existsById(id)) {
-            logger.warn("Tentativa de deletar tipo genérico com ID {} que não existe", id);
+            logger.warn("Tentativa de deletar tipo generico com ID {} que nao existe", id);
             throw new EntidadeNaoEncontradaException("Tipo genérico com ID " + id + " não encontrado.");
         }
         tipoGenericoRepository.deleteById(id);
-        logger.info("Tipo genérico com ID {} deletado com sucesso", id);
+        logger.info("Tipo generico com ID {} deletado com sucesso", id);
     }
 
     private void validarEntrada(TipoGenericoRequest tipoGenericoRequest) {
         if (tipoGenericoRequest.getNome() == null || tipoGenericoRequest.getNome().isEmpty()) {
-            logger.warn("Validação falhou: nome do tipo genérico é obrigatório");
+            logger.warn("Validacao falhou: nome do tipo generico obrigatorio");
             throw new IllegalArgumentException("O nome do tipo genérico é obrigatório.");
         }
         if (tipoGenericoRequest.getCategoria() == null || tipoGenericoRequest.getCategoria().isEmpty()) {
-            logger.warn("Validação falhou: categoria do tipo genérico é obrigatória");
+            logger.warn("Validacao falhou: categoria do tipo generico obrigatoria");
             throw new IllegalArgumentException("A categoria do tipo genérico é obrigatória.");
         }
     }
