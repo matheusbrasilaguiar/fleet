@@ -85,7 +85,6 @@ class TipoGenericoServiceTest {
         request.setDescricao("Descrição1");
         request.setCategoria("Categoria1");
 
-        TipoGenerico tipoGenerico = new TipoGenerico(null, "Tipo1", "Descrição1", "Categoria1");
         TipoGenerico savedTipoGenerico = new TipoGenerico(1L, "Tipo1", "Descrição1", "Categoria1");
         when(tipoGenericoRepository.save(any(TipoGenerico.class))).thenReturn(savedTipoGenerico);
 
